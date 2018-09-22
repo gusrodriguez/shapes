@@ -42,7 +42,7 @@ const initialize = () => {
 }
 
 /*
- * Size the canvas to be fullscreen maintaining thr aspect ratio.
+ * Size the canvas to be fullscreen maintaining the aspect ratio.
  */
 const sizeCanvas = () => {
   const container = document.getElementById("container");
@@ -114,8 +114,10 @@ const stopDragging = () => {
 
 const drag = (e) => {
     if(getState("dragged")) {
-      context.clearRect(0, 0, canvas.width, canvas.height);
       const mousePosition = getMousePosition(e);
+
+      // Clears the canvas.
+      context.clearRect(0, 0, canvas.width, canvas.height);
       
       // Updates the reference of the dragged dot.
       getState("dragged").x = mousePosition.x;

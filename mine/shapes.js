@@ -3,7 +3,7 @@
 */
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
-const diameter = 5;
+const radius = 5.5;
 const red = '#ff0000';
 const blue = '#0000ff';
 
@@ -21,7 +21,8 @@ let state = stateHandler.set("points", []);
  * By using Inmutable.js copies are free. It means the object is copied only by creating a new reference, which results in memory savings and save potential execution speed problems.
  */
 const setState = (key, value) => {
-  state = stateHandler.set(key, value);
+  const newState = stateHandler.set(key, value);
+  state = state.merge(newState);
 }
 
 /*
@@ -34,6 +35,7 @@ const getState = (key) => state.get(key);
  */
 const initialize = () => {
   canvas.addEventListener('click', drawDot);
+  canvas.addEventListener('mousedown', startDragging);
   sizeCanvas();
 }
 
@@ -57,7 +59,7 @@ const drawDot = (e) => {
   const mousePosition = getMousePosition(e);
   if (getState("points").length <= 3) {
     context.beginPath();
-    context.arc(mousePosition.x, mousePosition.y, diameter, 0, Math.PI * 2);
+    context.arc(mousePosition.x, mousePosition.y, radius, 0, Math.PI * 2);
     context.fillStyle = red;
     context.fill();
     setState("points", [...getState("points"), { x: mousePosition.x, y: mousePosition.y }]);
@@ -83,6 +85,23 @@ const drawParalellogram = () => {
   context.closePath();
   context.stroke();
 }
+
+const startDragging = (e) => {
+  setState("dragging", true);
+  // const mousePosition = getMousePosition(e);
+  // const points = getState("points");
+  // points.forEach(point => {
+  //   if(
+  //       (point.x <= mousePosition.x)                &&
+  //       (point.x + (radius * 2) >= mousePosition.x) &&
+  //       (point.y <= mousePosition.y)                &&
+  //       (point.y + (radius * 2) >= mousePosition.y)
+  //     ) {
+  //       setState("dragging", true);
+  //     }
+  // });
+  if(getState("points") && getState("points").length > 0) console.log("X: ", getState("points")[0].x, "Dragging", getState("dragging"));
+};
 
 /*
  * Get the mouse position on click.

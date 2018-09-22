@@ -34,8 +34,10 @@ const getState = (key) => state.get(key);
  * Init app.
  */
 const initialize = () => {
-  canvas.addEventListener('click', drawDot);
+  canvas.addEventListener('click', handleClick);
   canvas.addEventListener('mousedown', startDragging);
+  canvas.addEventListener('mouseup', stopDragging);
+  canvas.addEventListener('mousemove', drag);
   sizeCanvas();
 }
 
@@ -55,18 +57,22 @@ const sizeCanvas = () => {
 /*
  * Click event handler to draw a dot.
  */
-const drawDot = (e) => {
+const handleClick = (e) => {
   const mousePosition = getMousePosition(e);
   if (getState("points").length <= 3) {
-    context.beginPath();
-    context.arc(mousePosition.x, mousePosition.y, radius, 0, Math.PI * 2);
-    context.fillStyle = red;
-    context.fill();
+    drawDot(mousePosition.x, mousePosition.y);
     setState("points", [...getState("points"), { x: mousePosition.x, y: mousePosition.y }]);
   }
   if (getState("points").length === 3) {
     drawParalellogram();
   }
+}
+
+const drawDot = (x, y) => {
+  context.beginPath();
+  context.arc(x, y, radius, 0, Math.PI * 2);
+  context.fillStyle = red;
+  context.fill();
 }
 
 const drawParalellogram = () => {
@@ -88,20 +94,37 @@ const drawParalellogram = () => {
 
 const startDragging = (e) => {
   setState("dragging", true);
-  // const mousePosition = getMousePosition(e);
-  // const points = getState("points");
-  // points.forEach(point => {
-  //   if(
-  //       (point.x <= mousePosition.x)                &&
-  //       (point.x + (radius * 2) >= mousePosition.x) &&
-  //       (point.y <= mousePosition.y)                &&
-  //       (point.y + (radius * 2) >= mousePosition.y)
-  //     ) {
-  //       setState("dragging", true);
-  //     }
-  // });
-  if(getState("points") && getState("points").length > 0) console.log("X: ", getState("points")[0].x, "Dragging", getState("dragging"));
+  const mousePosition = getMousePosition(e);
+  const points = getState("points");
+  points.forEach(point => {
+    if(
+        (point.x <= mousePosition.x)                &&
+        (point.x + (radius * 2) >= mousePosition.x) &&
+        (point.y <= mousePosition.y)                &&
+        (point.y + (radius * 2) >= mousePosition.y)
+      ) {
+        setState("dragging", true);
+        
+        // Holds a reference of the dragged point.
+        setState("dragged", point);
+      }
+  });
 };
+
+const stopDragging = () => {
+  setState("dragging", false);
+}
+
+const drag = (e) => {
+  if(getState("dragging")) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    const mousePosition = getMousePosition(e);
+    getState("dragged").x = mousePosition.x;
+    getState("dragged").y = mousePosition.y;
+    drawDot(mousePosition.x, mousePosition.y);
+    drawParalellogram();
+  }
+}
 
 /*
  * Get the mouse position on click.

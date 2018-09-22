@@ -5,6 +5,7 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const diameter = 5;
 const red = '#ff0000';
+const blue = '#0000ff';
 
 /*
  * Inmutable app state. 
@@ -54,16 +55,33 @@ const sizeCanvas = () => {
  */
 const drawDot = (e) => {
   const mousePosition = getMousePosition(e);
-   if(getState("points").length <= 3) {  
-      context.beginPath();
-      context.arc(mousePosition.x, mousePosition.y, diameter, 0, Math.PI * 2);
-      context.fillStyle = red;
-      context.fill();
-      setState("points", [...getState("points"), { x: mousePosition.x, y: mousePosition.y }]);
-    }
-    if(getState("points").length === 3) {  
-      alert(getState("points"));
-    }
+  if (getState("points").length <= 3) {
+    context.beginPath();
+    context.arc(mousePosition.x, mousePosition.y, diameter, 0, Math.PI * 2);
+    context.fillStyle = red;
+    context.fill();
+    setState("points", [...getState("points"), { x: mousePosition.x, y: mousePosition.y }]);
+  }
+  if (getState("points").length === 3) {
+    drawParalellogram();
+  }
+}
+
+const drawParalellogram = () => {
+  const points = getState("points");
+  points.push({
+    x: points[0].x + points[2].x - points[1].x,
+    y: points[0].y + points[2].y - points[1].y,
+  });
+  context.beginPath();
+  context.strokeStyle = blue;
+  context.lineWidth = 2;
+  context.moveTo(points[0].x, points[0].y);
+  context.lineTo(points[1].x, points[1].y);
+  context.lineTo(points[2].x, points[2].y);
+  context.lineTo(points[3].x, points[3].y);
+  context.closePath();
+  context.stroke();
 }
 
 /*
@@ -78,32 +96,3 @@ const getMousePosition = (e) => {
 }
 
 initialize();
-
-/*
- * Domain model.
- */
-class Dot {
-  constructor(mousePosition, diameter, color) {
-    this.mousePosition = mousePosition;
-    this.diameter = diameter;
-    this.color = color;
-  }
-
-  draw() {
-    setState('points', [1]);
-
-    console.log(getState("points"));
-    // if(state.get("points").length <= 3) {
-    //   debugger;
-    //   setState([...state.get("points"), { x: this.mousePosition.x, y:this.mousePosition.y }]);
-    //   context.beginPath();
-    //   context.arc(this.mousePosition.x, this.mousePosition.y, this.diameter, 0, Math.PI * 2);
-    //   context.fillStyle = this.color;
-    //   context.fill();
-    // }
-
-    // if (state.get("points").length === 3) {
-    //   alert("three");
-    // }
-  }
-}

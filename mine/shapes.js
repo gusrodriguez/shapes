@@ -34,7 +34,7 @@ const getState = (key) => state.get(key);
  * Init app.
  */
 const initialize = () => {
-  canvas.addEventListener('click', handleClick);
+  canvas.addEventListener('click', setDot);
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mouseup', stopDragging);
   canvas.addEventListener('mousemove', drag);
@@ -57,7 +57,7 @@ const sizeCanvas = () => {
 /*
  * Click event handler to draw a dot.
  */
-const handleClick = (e) => {
+const setDot = (e) => {
   const mousePosition = getMousePosition(e);
   if (getState("points").length <= 3) {
     drawDot(mousePosition.x, mousePosition.y);
@@ -93,7 +93,6 @@ const drawParalellogram = () => {
 }
 
 const startDragging = (e) => {
-  setState("dragging", true);
   const mousePosition = getMousePosition(e);
   const points = getState("points");
   points.forEach(point => {
@@ -103,8 +102,6 @@ const startDragging = (e) => {
         (point.y <= mousePosition.y)                &&
         (point.y + (radius * 2) >= mousePosition.y)
       ) {
-        setState("dragging", true);
-        
         // Holds a reference of the dragged point.
         setState("dragged", point);
       }
@@ -112,18 +109,19 @@ const startDragging = (e) => {
 };
 
 const stopDragging = () => {
-  setState("dragging", false);
+  setState("dragged", null);
 }
 
 const drag = (e) => {
-  if(getState("dragging")) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    const mousePosition = getMousePosition(e);
-    getState("dragged").x = mousePosition.x;
-    getState("dragged").y = mousePosition.y;
-    drawDot(mousePosition.x, mousePosition.y);
-    drawParalellogram();
-  }
+    console.log(getState("dragged"));
+    if(getState("dragged")) {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      const mousePosition = getMousePosition(e);
+      getState("dragged").x = mousePosition.x;
+      getState("dragged").y = mousePosition.y;
+      drawDot(mousePosition.x, mousePosition.y);
+      drawParalellogram();    
+    }
 }
 
 /*

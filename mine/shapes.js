@@ -34,7 +34,7 @@ const getState = (key) => state.get(key);
  * Init app.
  */
 const initialize = () => {
-  canvas.addEventListener('click', setDot);
+  canvas.addEventListener('click', handleDot);
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mouseup', stopDragging);
   canvas.addEventListener('mousemove', drag);
@@ -48,7 +48,6 @@ const sizeCanvas = () => {
   const container = document.getElementById("container");
   const aspect = canvas.height / canvas.width;
   const width = container.offsetWidth;
-  const height = container.offsetHeight;
 
   canvas.width = width;
   canvas.height = Math.round(width * aspect);
@@ -56,10 +55,10 @@ const sizeCanvas = () => {
 
 /*
  * Click event handler to draw a dot.
- */
-const setDot = (e) => {
+ */ 
+const handleDot = (e) => {
   const mousePosition = getMousePosition(e);
-  if (getState("points").length <= 3) {
+  if (getState("points").length < 3) {
     drawDot(mousePosition.x, mousePosition.y);
     setState("points", [...getState("points"), { x: mousePosition.x, y: mousePosition.y }]);
   }
@@ -77,17 +76,18 @@ const drawDot = (x, y) => {
 
 const drawParalellogram = () => {
   const points = getState("points");
-  points.push({
-    x: points[0].x + points[2].x - points[1].x,
-    y: points[0].y + points[2].y - points[1].y,
-  });
+
   context.beginPath();
   context.strokeStyle = blue;
   context.lineWidth = 2;
   context.moveTo(points[0].x, points[0].y);
   context.lineTo(points[1].x, points[1].y);
   context.lineTo(points[2].x, points[2].y);
-  context.lineTo(points[3].x, points[3].y);
+
+  const lastPointX = points[0].x + points[2].x - points[1].x;
+  const lastPointY = points[0].y + points[2].y - points[1].y;
+
+  context.lineTo(lastPointX, lastPointY);
   context.closePath();
   context.stroke();
 }
@@ -113,15 +113,25 @@ const stopDragging = () => {
 }
 
 const drag = (e) => {
-    console.log(getState("dragged"));
     if(getState("dragged")) {
       context.clearRect(0, 0, canvas.width, canvas.height);
       const mousePosition = getMousePosition(e);
+      
+      // Updates the reference of the dragged dot.
       getState("dragged").x = mousePosition.x;
       getState("dragged").y = mousePosition.y;
-      drawDot(mousePosition.x, mousePosition.y);
+      
+      // Redraw all the dots and parallelogram according to the state change.
+      redrawDots();
       drawParalellogram();    
     }
+}
+
+const redrawDots = () => {
+  const points = getState("points");
+  points.forEach(point => {
+   drawDot(point.x, point.y);
+  });
 }
 
 /*

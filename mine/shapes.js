@@ -10,18 +10,18 @@ const blue = '#0000ff';
 /*
  * Inmutable app state. 
  * The state is handled as inmutable and is always returning a copy of the last state. This approach of functional programming will avoid side effects and also 
- * presents the possibilty to scale the app, for instance by adding an 'undo' feature in the future, just saving the copies of the state on a stack.
+ * presents the possibilty to scale the app, for instance by adding an 'undo' feature in the future, by saving the copies of the state on a stack.
  */
-const stateHandler = Immutable.Map();
+const inmutableStateHandler = Immutable.Map();
 
 // Initial state
-let state = stateHandler.set("points", []);
+let state = inmutableStateHandler.set("points", []);
 
 /*
  * By using Inmutable.js copies are free. It means the object is copied only by creating a new reference, which results in memory savings and save potential execution speed problems.
  */
 const setState = (key, value) => {
-  const newState = stateHandler.set(key, value);
+  const newState = inmutableStateHandler.set(key, value);
   state = state.merge(newState);
 }
 
@@ -42,7 +42,7 @@ const initialize = () => {
 }
 
 /*
- * Size the canvas to be fullscreen maintaining the aspect ratio.
+ * Size the canvas to be fullscreen keeping the aspect ratio.
  */
 const sizeCanvas = () => {
   const container = document.getElementById("container");
@@ -102,7 +102,7 @@ const startDragging = (e) => {
         (point.y <= mousePosition.y)                &&
         (point.y + (radius * 2) >= mousePosition.y)
       ) {
-        // Holds a reference of the dragged point.
+        // Holds a reference to the point being dragged.
         setState("dragged", point);
       }
   });

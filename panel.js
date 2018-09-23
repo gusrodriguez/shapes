@@ -114,6 +114,7 @@ const reset = () => {
   context.clearRect(0, 0, canvas.width, canvas.height);
   setState("points", []);
   setState("area", null);
+  resetShapesInfo();
 }
 
 start();

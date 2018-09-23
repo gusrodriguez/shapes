@@ -3,6 +3,18 @@
 */
 
 /*
+ * Clears the shapes info panel.
+ */
+const resetShapesInfo = () => {
+    const placeHolder = '[Draw...]'; 
+    document.getElementById("shape-info-parallelogram").textContent = placeHolder;
+    document.getElementById("shape-info-circle").textContent = placeHolder;
+    document.getElementById("shape-info-point1").textContent = placeHolder;
+    document.getElementById("shape-info-point2").textContent = placeHolder;
+    document.getElementById("shape-info-point3").textContent = placeHolder;
+}
+
+/*
  * Updates the information being shown to the user.
  */
 const updateShapesInfo = () => {

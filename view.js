@@ -11,6 +11,7 @@ const yellow = '#ffff66';
 const pink = '#ffa500';
 
 let draggedPoint = null;
+let area = null;
 
 /*
  * Starts the  app.
@@ -40,6 +41,7 @@ const render = () => {
     drawParallelogram();
     drawCircle();
   }
+  updateInfo();
 }
 
 /*
@@ -68,7 +70,11 @@ const stopDragging = () => {
  */
 const move = (e) => {
   const mousePosition = getMousePosition(e);
-  console.log(draggedPoint);
+  const points = getState();
+  points.forEach(point => {
+    const color = mouseOverPoint(point, mousePosition) ? pink : red;
+    highlightDot(point.x, point.y, color);
+  });
   if (draggedPoint) {
 
     // Updates the reference of the dragged dot.
@@ -102,6 +108,17 @@ const drawDots = (color) => {
     context.fill();
   });
 }
+
+/*
+ * Highlight a single dot on mouse over.
+ */
+const highlightDot = (x, y, color) => {
+  context.beginPath();
+  context.arc(x, y, radius, 0, Math.PI * 2);
+  context.fillStyle = color;
+  context.fill();
+}
+
 
 /*
  * Get the mouse position on click.
@@ -154,7 +171,7 @@ const drawCircle = () => {
   const points = getState();
 
   // Get the radius according to the area of the parallelogram
-  const area = calculateArea(points, calculateFourthPoint(points));
+  area = calculateArea(points, calculateFourthPoint(points));
   const circleRadius =  Math.sqrt(area/Math.PI).toFixed();
 
   const lastPointX = points[0].x + points[2].x - points[1].x;
@@ -176,6 +193,30 @@ const mouseOverPoint = (point, mousePosition) => {
           ((point.x + radius * 2) >= mousePosition.x) &&
           (point.y <= mousePosition.y)                &&
           ((point.y + radius * 2) >= mousePosition.y)
+}
+
+/*
+ * Clears the shapes info panel.
+ */
+const resetShapesInfo = () => {
+  const placeHolder = '[Draw...]'; 
+  document.getElementById("shape-info-parallelogram").textContent = placeHolder;
+  document.getElementById("shape-info-circle").textContent = placeHolder;
+  document.getElementById("shape-info-point1").textContent = placeHolder;
+  document.getElementById("shape-info-point2").textContent = placeHolder;
+  document.getElementById("shape-info-point3").textContent = placeHolder;
+}
+
+/*
+* Updates the information being shown to the user.
+*/
+const updateInfo = () => {
+  const points = getState("points");
+  document.getElementById("shape-info-parallelogram").textContent = area;
+  document.getElementById("shape-info-circle").textContent = area;
+  document.getElementById("shape-info-point1").textContent = `x: ${points[0].x} - y: ${points[0].y}`;
+  document.getElementById("shape-info-point2").textContent = `x: ${points[1].x} - y: ${points[1].y}`;
+  document.getElementById("shape-info-point3").textContent = `x: ${points[2].x} - y: ${points[2].y}`;
 }
 
 start();

@@ -74,7 +74,7 @@ const drawDots = (color) => {
   const drawCircle = () => {
     const points = getState();
   
-    // Get the radius according to the area of the parallelogram
+    // Get the radius according to the area of the parallelogram.
     area = calculateArea(points, calculateFourthPoint(points));
     const circleRadius =  Math.sqrt(area/Math.PI).toFixed();
   

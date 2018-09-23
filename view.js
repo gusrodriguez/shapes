@@ -11,7 +11,14 @@ const blue = '#000080';
 const yellow = '#ffff66';
 const pink = '#ffa500';
 
+/*
+* Rererence to the point being dragged.
+*/
 let draggedPoint = null;
+
+/*
+* Area value.
+*/
 let area = null;
 
 /*
@@ -31,7 +38,6 @@ const start = () => {
  */
 const render = () => {
   const points = getState();
-  console.log("Y?");
   context.clearRect(0, 0, canvas.width, canvas.height);
   if (points.length <= 3) {
     drawDots(red);
@@ -98,6 +104,14 @@ const move = (e) => {
 }
 
 /*
+ * Get the mouse position on click.
+ */
+const reset = () => {
+  area = null;
+  resetState();
+}
+
+/*
  * Size the canvas to be fullscreen keeping the aspect ratio.
  */
 const sizeCanvas = () => {
@@ -110,138 +124,33 @@ const sizeCanvas = () => {
 }
 
 /*
- * Draw a dot given its coordinates.
- */
-const drawDots = (color) => {
-  getState().forEach((dot) => {
-    context.beginPath();
-    context.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
-    context.fillStyle = color;
-    context.fill();
-  });
-}
-
-/*
- * Highlight a single dot on mouse over.
- */
-const highlightDot = (x, y, color) => {
-  context.beginPath();
-  context.arc(x, y, radius, 0, Math.PI * 2);
-  context.fillStyle = color;
-  context.fill();
-}
-
-/*
- * Get the mouse position on click.
- */
-const getMousePosition = (e) => {
-  const rect = canvas.getBoundingClientRect();
-  return {
-    x: e.clientX - rect.left,
-    y: e.clientY - rect.top
-  };
-}
-
-/*
- * Draw the parallelogram.
- */
-const drawParallelogram = () => {
-  const points = getState();
-
-  const fourthPoint = calculateFourthPoint(points);
-
-  context.beginPath();
-  context.strokeStyle = blue;
-  context.lineWidth = 3;
-  context.moveTo(points[0].x, points[0].y);
-  context.lineTo(points[1].x, points[1].y);
-  context.lineTo(points[2].x, points[2].y);
-  context.lineTo(fourthPoint.x, fourthPoint.y);
-  context.closePath();
-  context.stroke();
-}
-
-const calculateFourthPoint = (points) => {
-  return {
-    x: points[0].x + points[2].x - points[1].x,
-    y: points[0].y + points[2].y - points[1].y
+   * Clears the shapes info panel.
+   */
+  const resetShapesInfo = () => {
+    const placeHolder = '[Draw...]'; 
+    document.getElementById("shape-info-parallelogram").textContent = placeHolder;
+    document.getElementById("shape-info-circle").textContent = placeHolder;
+    document.getElementById("shape-info-point1").textContent = placeHolder;
+    document.getElementById("shape-info-point2").textContent = placeHolder;
+    document.getElementById("shape-info-point3").textContent = placeHolder;
   }
-}
-
-const calculateArea = (points, fourthPoint) => {
-  const v1 = Math.sqrt(Math.pow((fourthPoint.x - points[0].x), 2) + Math.pow((fourthPoint.y - [points[0].y]), 2));
-  const v2 = Math.sqrt(Math.pow((points[1].x - points[0].x), 2) + Math.pow((points[1].y - [points[0].y]), 2));
-
-  return ((v1 * v2)).toFixed();
-}
-
-/*
- * Draw the circle.
- */
-const drawCircle = () => {
-  const points = getState();
-
-  // Get the radius according to the area of the parallelogram
-  area = calculateArea(points, calculateFourthPoint(points));
-  const circleRadius =  Math.sqrt(area/Math.PI).toFixed();
-
-  const lastPointX = points[0].x + points[2].x - points[1].x;
-  const lastPointY = points[0].y + points[2].y - points[1].y;
-  const centerX = (points[0].x + points[1].x + points[2].x + lastPointX) / 4;
-  const centerY = (points[0].y + points[1].y + points[2].y + lastPointY) / 4;
-  context.beginPath();
-  context.arc(centerX, centerY, circleRadius, 0, Math.PI * 2);
-  context.strokeStyle = yellow;
-  context.lineWidth = 3;
-  context.stroke();
-}
-
-/*
- * Returns true if the mouse is positioned over a point.
- */
-const mouseOverPoint = (point, mousePosition) => {
-  return  (point.x <= mousePosition.x)                &&
-          ((point.x + radius * 2) >= mousePosition.x) &&
-          (point.y <= mousePosition.y)                &&
-          ((point.y + radius * 2) >= mousePosition.y)
-}
-
-/*
- * Clears the shapes info panel.
- */
-const resetShapesInfo = () => {
-  const placeHolder = '[Draw...]'; 
-  document.getElementById("shape-info-parallelogram").textContent = placeHolder;
-  document.getElementById("shape-info-circle").textContent = placeHolder;
-  document.getElementById("shape-info-point1").textContent = placeHolder;
-  document.getElementById("shape-info-point2").textContent = placeHolder;
-  document.getElementById("shape-info-point3").textContent = placeHolder;
-}
-
-/*
-* Updates the information being shown to the user.
-*/
-const updateInfo = () => {
-  const points = getState();
-  const placeHolder = '[Draw...]'; 
-  const point1Text = points[0] ? `x: ${points[0].x} - y: ${points[0].y}` : placeHolder;
-  const point2Text = points[1] ? `x: ${points[1].x} - y: ${points[1].y}` : placeHolder;
-  const point3Text = points[2] ? `x: ${points[2].x} - y: ${points[2].y}` : placeHolder;
-  const areaText = area ? area : placeHolder;
-
-  document.getElementById("shape-info-parallelogram").textContent = areaText;
-  document.getElementById("shape-info-circle").textContent = areaText;
-  document.getElementById("shape-info-point1").textContent = point1Text;
-  document.getElementById("shape-info-point2").textContent = point2Text;
-  document.getElementById("shape-info-point3").textContent = point3Text;
-}
-
-/*
- * Get the mouse position on click.
- */
-const reset = () => {
-  area = null;
-  resetState();
-}
+  
+  /*
+  * Updates the information being shown to the user.
+  */
+  const updateInfo = () => {
+    const points = getState();
+    const placeHolder = '[Draw...]'; 
+    const point1Text = points[0] ? `x: ${points[0].x} - y: ${points[0].y}` : placeHolder;
+    const point2Text = points[1] ? `x: ${points[1].x} - y: ${points[1].y}` : placeHolder;
+    const point3Text = points[2] ? `x: ${points[2].x} - y: ${points[2].y}` : placeHolder;
+    const areaText = area ? area : placeHolder;
+  
+    document.getElementById("shape-info-parallelogram").textContent = areaText;
+    document.getElementById("shape-info-circle").textContent = areaText;
+    document.getElementById("shape-info-point1").textContent = point1Text;
+    document.getElementById("shape-info-point2").textContent = point2Text;
+    document.getElementById("shape-info-point3").textContent = point3Text;
+  }
 
 start();

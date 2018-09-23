@@ -1,26 +1,44 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <html>
 <head>
-    <title>Shapes</title>
-    <link rel="stylesheet" href="shapes.css">
+    <title>Shapes Panel</title>
+    <link rel="stylesheet" href="w3.css">
+    <link rel="stylesheet" href="panel.css">
+    <link rel="icon" href="favicon.ico">
 </head>
 <body>
     <header class="header">
         <nav class="nav">
-            <ul class="user-info">
+            <ul class="nav--info">
                 <li>
-                  Info here
+                    Shapes!
                 </li>
             </ul>
         </nav>
     </header>
     <main id="container" class="container">
-        <canvas id="canvas" class="canvas"></canvas>
+        <canvas id="canvas" class="canvas" style="background: url('canvas.jpg')"></canvas>
+        <div class="w3-card-4 shapes-info--card ">
+            <header class="w3-container w3-light-grey">
+              <h3>Shapes info</h3>
+            </header>
+            <div class="w3-container">
+              <p>Parallelogram Area: <span id="shape-info-parallelogram"></span></p>
+              <p>Circle Area: <span id="shape-info-circle"></span></p>
+              <p>Point 1 Coordinates: <span id="shape-info-point1"></span></p>
+              <p>Point 2 Coordinates: <span id="shape-info-point2"></span></p>
+              <p>Point 3 Coordinates: <span id="shape-info-point3"></span></p>
+            </div>
+            <button class="w3-button w3-block w3-dark-grey">Reset Panel</button>
+            </div>
     </main>
     <!-- All this script should be bundled, minified and concat with a build tool like webpack. -->
     <script src="immutable.min.js"></script>
     <script src="actions-dot.js"></script>
     <script src="actions-parallelogram.js"></script>
     <script src="actions-circle.js"></script>
+    <script src="actions-shapes-info.js"></script>
     <script src="state.js"></script>
     <script src="dispatcher.js"></script>
     <script src="panel.js"></script>

@@ -13,7 +13,7 @@ const drawParallelogram = () => {
 
   context.beginPath();
   context.strokeStyle = blue;
-  context.lineWidth = 2;
+  context.lineWidth = 3;
   context.moveTo(points[0].x, points[0].y);
   context.lineTo(points[1].x, points[1].y);
   context.lineTo(points[2].x, points[2].y);

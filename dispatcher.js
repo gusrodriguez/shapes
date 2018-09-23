@@ -12,12 +12,14 @@
 actions = {
   drawOnThirdDot: [
     drawParallelogram,
-    drawCircle
+    drawCircle,
+    updateShapesInfo
   ],
   drawOnDrag: [
     redrawDots,
     drawParallelogram,
     drawCircle,
+    updateShapesInfo, 
   ], 
 }
 

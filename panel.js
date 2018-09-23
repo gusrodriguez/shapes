@@ -9,8 +9,9 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const radius = 5.5;
 const red = '#ff0000';
-const blue = '#0000ff';
-const yellow = '#ffff00';
+const blue = '#000080';
+const yellow = '#ffff66';
+const lightGrey = '#d3d3d3';
 
 /*
  * Starts the  app.
@@ -21,6 +22,7 @@ const start = () => {
   canvas.addEventListener('mouseup', stopDragging);
   canvas.addEventListener('mousemove', drag);
   sizeCanvas();
+  grid();
 }
 
 /*

@@ -1,0 +1,22 @@
+.nav {
+    background-color: #252A2E;
+    border-bottom: 1px #252A2E solid;
+    height: 60px;
+}
+
+.nav--info {
+    list-style: none;
+    color: #fff;
+    padding-top: 17px;
+}
+.shapes-info--card {
+    position: absolute;
+    background: white;
+    right: 30px;
+    top: 90px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+}

@@ -1,73 +1,28 @@
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>DrawBoard Challenge</title>
-    <link rel="icon" href="assets/ico/favicon.ico" />
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700|Megrim" rel="stylesheet">
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/home.css">
+    <title>Shapes</title>
+    <link rel="stylesheet" href="shapes.css">
 </head>
-<body class="BoardPage">
-    <header class="Header">
-        <a href="index.html">
-            <img src="./assets/img/logo.png" alt="DrawBoard Logo" class="Header-logo">
-            <h1 class="Header-brand">DrawBoard</h1>
-        </a>
-        <nav class="Navigation">
-            <ul class="Navigation-items">
-                <li class="Navigation-item">
-                    <a class="Navigation-item--link" href="./pages/tutorial.html">
-                        <img  class="Navigation-item--icon" src="./assets/img/tutorial.png" alt="How to use link"/>
-                        Tutorial
-                    </a>
-                </li>
-                <li class="Navigation-item">
-                    <a class="Navigation-item--link" href="./pages/author.html">
-                        <img  class="Navigation-item--icon" src="./assets/img/preta.png" alt="About the author link"/>
-                        Author
-                    </a>
-                </li>
-                <li class="Navigation-item">
-                    <a class="Navigation-item--link" href="./pages/about.html">
-                        <img  class="Navigation-item--icon" src="./assets/img/info.png" alt="About the application link"/>
-                        About
-                    </a>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <ul class="user-info">
+                <li>
+                  Info here
                 </li>
             </ul>
         </nav>
     </header>
-
-    <aside class="Info">
-        <h2 class="Info-title">Info:</h3>
-        <div class="Info-none">
-            <p class="Info-none--text">
-                There is no information yet.
-                Please click in 3 (three) different points inside the board to see further information.
-            </p>
-        </div>
-
-        <div class="Info-content u-hidden">
-            <h3 class="Info-title--points">Points</h3>
-            <ol type="1" class="Info-content--list">
-                <li class="Info-content--point"></li>
-                <li class="Info-content--point"></li>
-                <li class="Info-content--point"></li>
-            </ol>
-            <h3 class="Info-title--Areas">Areas</h3>
-            <ul class="Info-content--list">
-                <li class="Info-content--parallelogramArea">Parallelogram: </li>
-                <li class="Info-content--circleArea">Circle: </li>
-            </ul>
-        </div>
-    </aside>
-
-    <main class="Board">
-        <canvas id="canvas" class="Board-canvas"></canvas>
-        <button class="Button--reset">Reset Board</button>
+    <main id="container" class="container">
+        <canvas id="canvas" class="canvas"></canvas>
     </main>
-
-    <script src="./js/board.js"></script>
+    <!-- All this script should be bundled, minified and concat with a build tool like webpack. -->
+    <script src="immutable.min.js"></script>
+    <script src="actions-dot.js"></script>
+    <script src="actions-parallelogram.js"></script>
+    <script src="actions-circle.js"></script>
+    <script src="state.js"></script>
+    <script src="dispatcher.js"></script>
+    <script src="panel.js"></script>
 </body>
 </html>

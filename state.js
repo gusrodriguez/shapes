@@ -10,6 +10,9 @@ const setState = (point) => {
   render();
 }
 
+/*
+ * Reset the state.
+ */
 const resetState = () => {
   state.splice(0, state.length);
   render();
@@ -18,4 +21,4 @@ const resetState = () => {
 /*
  * Returns a copy of the current state.
  */
-const getState = (key) => [...state];
+const getState = () => [...state];

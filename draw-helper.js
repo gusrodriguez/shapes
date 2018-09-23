@@ -3,7 +3,7 @@
  */
 
 /*
- * Draw a dot given its coordinates.
+ * Draw all the dots according to the current state.
  */
 const drawDots = (color) => {
     getState().forEach((dot) => {

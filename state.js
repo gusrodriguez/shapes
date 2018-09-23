@@ -22,3 +22,8 @@ const setState = (key, value) => {
  * Returns the current state.
  */
 const getState = (key) => state.get(key);
+
+const resetState = () => {
+  state = inmutableStateHandler.set("points", []);
+  start();
+}

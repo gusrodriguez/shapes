@@ -7,6 +7,7 @@
 */
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
+const resetButton = document.getElementById('reset');
 const radius = 5.5;
 const red = '#ff0000';
 const blue = '#000080';
@@ -21,8 +22,8 @@ const start = () => {
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mouseup', stopDragging);
   canvas.addEventListener('mousemove', drag);
+  resetButton.addEventListener('click', reset);
   sizeCanvas();
-  grid();
 }
 
 /*
@@ -104,6 +105,15 @@ const getMousePosition = (e) => {
     x: e.clientX - rect.left,
     y: e.clientY - rect.top
   };
+}
+
+/*
+ * Get the mouse position on click.
+ */
+const reset = () => {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  setState("points", []);
+  setState("area", null);
 }
 
 start();

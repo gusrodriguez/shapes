@@ -4,6 +4,7 @@
 */
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
+const resetButton = document.getElementById('reset');
 const radius = 5.5;
 const red = '#ff0000';
 const blue = '#000080';
@@ -21,18 +22,16 @@ const start = () => {
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mouseup', stopDragging);
   canvas.addEventListener('mousemove', move);
+  resetButton.addEventListener('click', reset);
   sizeCanvas();
 }
 
-const handleClick = (e) => {
-  const mousePosition = getMousePosition(e);
-  if (getState().length <= 3) {
-    setState({ x: mousePosition.x, y: mousePosition.y });
-  }
-}
-
+/*
+ * Renders the entire view on each state change.
+ */
 const render = () => {
   const points = getState();
+  console.log("Y?");
   context.clearRect(0, 0, canvas.width, canvas.height);
   if (points.length <= 3) {
     drawDots(red);
@@ -42,6 +41,16 @@ const render = () => {
     drawCircle();
   }
   updateInfo();
+}
+
+/*
+ * Handle click on canvas.
+ */
+const handleClick = (e) => {
+  const mousePosition = getMousePosition(e);
+  if (getState().length <= 3) {
+    setState({ x: mousePosition.x, y: mousePosition.y });
+  }
 }
 
 /*
@@ -118,7 +127,6 @@ const highlightDot = (x, y, color) => {
   context.fillStyle = color;
   context.fill();
 }
-
 
 /*
  * Get the mouse position on click.
@@ -211,12 +219,25 @@ const resetShapesInfo = () => {
 * Updates the information being shown to the user.
 */
 const updateInfo = () => {
-  const points = getState("points");
+  const points = getState();
+  const placeHolder = '[Draw...]'; 
+  const point1Text = points[0] ? `x: ${points[0].x} - y: ${points[0].y}` : placeHolder;
+  const point2Text = points[1] ? `x: ${points[1].x} - y: ${points[1].y}` : placeHolder;
+  const point3Text = points[2] ? `x: ${points[2].x} - y: ${points[2].y}` : placeHolder;
+
   document.getElementById("shape-info-parallelogram").textContent = area;
   document.getElementById("shape-info-circle").textContent = area;
-  document.getElementById("shape-info-point1").textContent = `x: ${points[0].x} - y: ${points[0].y}`;
-  document.getElementById("shape-info-point2").textContent = `x: ${points[1].x} - y: ${points[1].y}`;
-  document.getElementById("shape-info-point3").textContent = `x: ${points[2].x} - y: ${points[2].y}`;
+  document.getElementById("shape-info-point1").textContent = point1Text;
+  document.getElementById("shape-info-point2").textContent = point2Text;
+  document.getElementById("shape-info-point3").textContent = point3Text;
+}
+
+/*
+ * Get the mouse position on click.
+ */
+const reset = () => {
+  resetState();
+  area = null;
 }
 
 start();

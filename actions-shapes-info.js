@@ -1,3 +1,10 @@
+/*
+* Actions related to the shapes info report.
+*/
+
+/*
+ * Updates the information being shown to the user.
+ */
 const updateShapesInfo = () => {
     const points = getState("points");
     document.getElementById("shape-info-parallelogram").textContent = getState("area");

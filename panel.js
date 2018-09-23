@@ -22,7 +22,7 @@ const start = () => {
   canvas.addEventListener('click', handleDot);
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mouseup', stopDragging);
-  canvas.addEventListener('mousemove', drag);
+  canvas.addEventListener('mousemove', move);
   resetButton.addEventListener('click', reset);
   sizeCanvas();
 }
@@ -61,23 +61,17 @@ const stopDragging = () => {
 }
 
 /*
- * Drag handler.
+ * Mouse move and Drag handler.
  */
-const drag = (e) => {
-
+const move = (e) => {
   const points = getState("points");
   const mousePosition = getMousePosition(e);
   points.forEach(point => {
-    if (mouseOverPoint(point, mousePosition)) {
-      drawDot(point.x, point.y, pink);
-    } else {
-      drawDot(point.x, point.y, red);
-    }
+    const color = mouseOverPoint(point, mousePosition) ? pink : red;
+    drawDot(point.x, point.y, color);
   });
 
   if (getState("dragged")) {
-    const mousePosition = getMousePosition(e);
-
     // Clears the canvas.
     context.clearRect(0, 0, canvas.width, canvas.height);
 

@@ -80,6 +80,9 @@ const stopDragging = () => {
 const move = (e) => {
   const mousePosition = getMousePosition(e);
   const points = getState();
+
+  if(points.length < 3) return;
+
   points.forEach(point => {
     const color = mouseOverPoint(point, mousePosition) ? pink : red;
     highlightDot(point.x, point.y, color);
@@ -90,7 +93,7 @@ const move = (e) => {
     draggedPoint.x = mousePosition.x;
     draggedPoint.y = mousePosition.y;
 
-    setState(null);
+    setState();
   }
 }
 
@@ -224,9 +227,10 @@ const updateInfo = () => {
   const point1Text = points[0] ? `x: ${points[0].x} - y: ${points[0].y}` : placeHolder;
   const point2Text = points[1] ? `x: ${points[1].x} - y: ${points[1].y}` : placeHolder;
   const point3Text = points[2] ? `x: ${points[2].x} - y: ${points[2].y}` : placeHolder;
+  const areaText = area ? area : placeHolder;
 
-  document.getElementById("shape-info-parallelogram").textContent = area;
-  document.getElementById("shape-info-circle").textContent = area;
+  document.getElementById("shape-info-parallelogram").textContent = areaText;
+  document.getElementById("shape-info-circle").textContent = areaText;
   document.getElementById("shape-info-point1").textContent = point1Text;
   document.getElementById("shape-info-point2").textContent = point2Text;
   document.getElementById("shape-info-point3").textContent = point3Text;
@@ -236,8 +240,8 @@ const updateInfo = () => {
  * Get the mouse position on click.
  */
 const reset = () => {
-  resetState();
   area = null;
+  resetState();
 }
 
 start();

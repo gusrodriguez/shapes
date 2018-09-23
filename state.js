@@ -7,7 +7,6 @@ const setState = (point) => {
   if(state.length < 3 && point) {
     state.push(point);
   }
-  
   render();
 }
 
@@ -17,6 +16,6 @@ const resetState = () => {
 }
 
 /*
- * Returns the current state.
+ * Returns a copy of the current state.
  */
 const getState = (key) => [...state];

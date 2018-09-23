@@ -4,6 +4,23 @@
     height: 60px;
 }
 
+.nav li{
+    float: left;
+}
+
+.nav button {
+    background-color: #252A2E;
+    color: #fff;
+    border: 0;
+    padding-left: 15px;
+    cursor: pointer;
+    outline: none;
+}
+
+.nav button:hover {
+    color: #add8e6;
+}
+
 .nav--info {
     list-style: none;
     color: #fff;
@@ -11,7 +28,7 @@
 }
 .shapes-info--card {
     position: absolute;
-    background: white;
+    background-color: white;
     right: 30px;
     top: 90px;
     width: 310px;

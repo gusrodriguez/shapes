@@ -27,6 +27,10 @@ const start = () => {
   sizeCanvas();
 }
 
+const about = () => {
+  document.getElementById('about').style.display='none'
+}
+
 /*
  * Size the canvas to be fullscreen keeping the aspect ratio.
  */

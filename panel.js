@@ -13,6 +13,7 @@ const red = '#ff0000';
 const blue = '#000080';
 const yellow = '#ffff66';
 const lightGrey = '#d3d3d3';
+const pink = '#ffa500';
 
 /*
  * Starts the  app.
@@ -45,12 +46,7 @@ const startDragging = (e) => {
   const mousePosition = getMousePosition(e);
   const points = getState("points");
   points.forEach(point => {
-    if (
-      (point.x <= mousePosition.x) &&
-      (point.x + (radius * 2) >= mousePosition.x) &&
-      (point.y <= mousePosition.y) &&
-      (point.y + (radius * 2) >= mousePosition.y)
-    ) {
+    if (mouseOverPoint(point, mousePosition)) {
       // Holds a reference to the point being dragged.
       setState("dragged", point);
     }
@@ -68,6 +64,17 @@ const stopDragging = () => {
  * Drag handler.
  */
 const drag = (e) => {
+
+  const points = getState("points");
+  const mousePosition = getMousePosition(e);
+  points.forEach(point => {
+    if (mouseOverPoint(point, mousePosition)) {
+      drawDot(point.x, point.y, pink);
+    } else {
+      drawDot(point.x, point.y, red);
+    }
+  });
+
   if (getState("dragged")) {
     const mousePosition = getMousePosition(e);
 
@@ -83,12 +90,22 @@ const drag = (e) => {
 }
 
 /*
+ * Returns true if the mouse is positioned over a point.
+ */
+const mouseOverPoint = (point, mousePosition) => {
+  return  (point.x <= mousePosition.x)                &&
+          ((point.x + radius * 2) >= mousePosition.x) &&
+          (point.y <= mousePosition.y)                &&
+          ((point.y + radius * 2) >= mousePosition.y)
+}
+
+/*
  * Click event handler to draw a dot.
  */
 const handleDot = (e) => {
   const mousePosition = getMousePosition(e);
   if (getState("points").length < 3) {
-    drawDot(mousePosition.x, mousePosition.y);
+    drawDot(mousePosition.x, mousePosition.y, red);
     setState("points", [...getState("points"), { x: mousePosition.x, y: mousePosition.y }]);
   }
   if (getState("points").length === 3) {

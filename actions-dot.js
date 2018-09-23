@@ -8,16 +8,16 @@
 const redrawDots = () => {
   const points = getState("points");
   points.forEach(point => {
-    drawDot(point.x, point.y);
+    drawDot(point.x, point.y, red);
   });
 }
 
 /*
  * Draw a dot given its coordinates.
  */
-const drawDot = (x, y) => {
+const drawDot = (x, y, color) => {
   context.beginPath();
   context.arc(x, y, radius, 0, Math.PI * 2);
-  context.fillStyle = red;
+  context.fillStyle = color;
   context.fill();
 }

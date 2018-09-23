@@ -54,6 +54,9 @@ const drawDots = (color) => {
     context.stroke();
   }
   
+  /*
+   * Calculate the position of the fourth point of the parallelogram.
+   */
   const calculateFourthPoint = (points) => {
     return {
       x: points[0].x + points[2].x - points[1].x,
@@ -61,6 +64,9 @@ const drawDots = (color) => {
     }
   }
   
+  /*
+   * Calculate the area of the parallelogram.
+   */
   const calculateArea = (points, fourthPoint) => {
     const v1 = Math.sqrt(Math.pow((fourthPoint.x - points[0].x), 2) + Math.pow((fourthPoint.y - [points[0].y]), 2));
     const v2 = Math.sqrt(Math.pow((points[1].x - points[0].x), 2) + Math.pow((points[1].y - [points[0].y]), 2));

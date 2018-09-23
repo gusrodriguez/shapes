@@ -46,7 +46,7 @@ const handleAboutHide = () => {
 }
 
 /*
- * Renders the entire view on each state change.
+ * Render the entire view on each state change.
  */
 const render = () => {
   const points = getState();
@@ -111,12 +111,13 @@ const move = (e) => {
     draggedPoint.x = mousePosition.x;
     draggedPoint.y = mousePosition.y;
 
+    // Force re-render with no state change.
     setState();
   }
 }
 
 /*
- * Get the mouse position on click.
+ * Reset the state.
  */
 const reset = () => {
   area = null;

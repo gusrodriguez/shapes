@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+
+<head>
+    <title>Shapes Panel</title>
+    <link rel="stylesheet" href="w3.css">
+    <link rel="stylesheet" href="panel.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav">
+            <ul class="nav--info">
+                <li>
+                    Shapes!
+                </li>
+                <li>
+                    <button onclick="document.getElementById('about-modal').style.display='block'">About</button>
+                    <div id="about-modal" class="w3-modal">
+                        <div class="w3-modal-content w3-animate-top w3-card-4">
+                            <header class="w3-container w3-teal">
+                                <span onclick="document.getElementById('about-modal').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                                <h2>Modal Header</h2>
+                            </header>
+                            <div class="w3-container">
+                                <p>Some text..</p>
+                                <p>Some text..</p>
+                            </div>
+                            <footer class="w3-container w3-teal">
+                                <p>Modal Footer</p>
+                            </footer>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main id="container" class="container">
+        <canvas id="canvas" class="canvas" style="background: url('canvas.jpg')"></canvas>
+        <div class="w3-card-4 shapes-info--card ">
+            <header class="w3-container w3-light-grey">
+                <h3>Shapes info</h3>
+            </header>
+            <div class="w3-container">
+                <p>Parallelogram Area: <span id="shape-info-parallelogram" class="shapes-info--text">[Draw...]</span></p>
+                <p>Circle Area: <span id="shape-info-circle" class="shapes-info--text">[Draw...]</span></p>
+                <p>Point 1 Coordinates: <span id="shape-info-point1" class="shapes-info--text">[Draw...]</span></p>
+                <p>Point 2 Coordinates: <span id="shape-info-point2" class="shapes-info--text">[Draw...]</span></p>
+                <p>Point 3 Coordinates: <span id="shape-info-point3" class="shapes-info--text">[Draw...]</span></p>
+            </div>
+            <button class="w3-button w3-block w3-dark-grey" id="reset">Reset Panel</button>
+        </div>
+    </main>
+    <!-- All this script should be bundled, minified and concat with a build tool like webpack. -->
+    <script src="view.js"></script>
+    <script src="state-handler.js"></script>
+</body>
+
+</html>

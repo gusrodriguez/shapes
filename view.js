@@ -5,6 +5,8 @@
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const resetButton = document.getElementById('reset');
+const aboutShowButton = document.getElementById('about-show-button');
+const aboutHideSpan = document.getElementById('about-hide-span');
 const radius = 5.5;
 const red = '#ff0000';
 const blue = '#000080';
@@ -29,8 +31,18 @@ const start = () => {
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mouseup', stopDragging);
   canvas.addEventListener('mousemove', move);
+  aboutShowButton.addEventListener('click', handleAboutShow);
+  aboutHideSpan.addEventListener('click', handleAboutHide);
   resetButton.addEventListener('click', reset);
   sizeCanvas();
+}
+
+const handleAboutShow = () => {
+  document.getElementById('about-modal').style.display='block'
+}
+
+const handleAboutHide = () => {
+  document.getElementById('about-modal').style.display='none'
 }
 
 /*
@@ -153,4 +165,5 @@ const sizeCanvas = () => {
     document.getElementById("shape-info-point3").textContent = point3Text;
   }
 
+// Go!
 start();
